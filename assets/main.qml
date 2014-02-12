@@ -15,36 +15,112 @@
  */
 
 import bb.cascades 1.2
+import bb.multimedia 1.0
 
-Page {
-    Container {
-        //Todo: fill me with QML
-        Label {
-            // Localized text with the dynamic translation and locale updates support
-            text: qsTr("Hello QSettings") + Retranslate.onLocaleOrLanguageChanged
-            textStyle.base: SystemDefaults.TextStyles.BigText
-            textStyle.color: Color.DarkRed
-        }
-        Button {
-            text: "SaveMe"
-            onClicked: {
-                settings.setSettings("Test",savedtext.text)
+TabbedPane {
+    
+    Tab {
+        title: "QSettings"
+        Page {
+            Container {
+                //Todo: fill me with QML
+                Label {
+                    // Localized text with the dynamic translation and locale updates support
+                    text: qsTr("Hello QSettings") + Retranslate.onLocaleOrLanguageChanged
+                    textStyle.base: SystemDefaults.TextStyles.BigText
+                    textStyle.color: Color.DarkRed
+                }
+                Button {
+                    text: "SaveMe"
+                    onClicked: {
+                        settings.setSettings("Test",savedtext.text)
+                    }
+                }
+                TextField {
+                    id: savedtext
+                    hintText: "nothin"
+                }
+                
+                Button {
+                    text: "LoadMe"
+                    onClicked: {
+                        loadedtext.setText(settings.getSettings("Test"))
+                    }
+                }
+                TextField {
+                    id: loadedtext
+                    hintText: "nothin"
+                }
             }
         }
-        TextField {
-            id: savedtext
-            hintText: "nothin"
-        }
-        
-        Button {
-            text: "LoadMe"
-            onClicked: {
-                loadedtext.setText(settings.getSettings("Test"))
+    }
+    Tab {
+        title: "video"
+        Page {
+            Container {
+                layout: AbsoluteLayout {
+                }
+                
+                attachedObjects:[
+                    MediaPlayer {
+                        id: vidPlayer
+                        sourceUrl: ""
+                        
+                        videoOutput: VideoOutput.PrimaryDisplay
+                        
+                        // The name of the window to create
+                        windowId: fwcVideoSurface.windowId
+                    
+                    
+                    }
+                ]
+                
+                ForeignWindowControl {
+                    id: fwcVideoSurface
+                    windowId: "myVideoSurface"
+                    
+                    updatedProperties: WindowProperty.Size |
+                    WindowProperty.Position |
+                    WindowProperty.Visible
+                    
+                    preferredWidth: 1280
+                    preferredHeight: 768
+                }
+                
+                ForeignWindowControl {
+                    id: fwcCaptionSurface
+                    windowId: "myCaptionSurface"
+                    
+                    updatedProperties: WindowProperty.Size |
+                    WindowProperty.Position |
+                    WindowProperty.Visible
+                    
+                    preferredWidth: 1280
+                    preferredHeight: 768
+                }
+                
+                
+                Button {
+                    text: "Play Video"
+                    onClicked: {
+                        
+                        
+                        if (vidPlayer.play() != MediaError.None) {
+                            // Put your error handling code here
+                        }
+                    }
+                }
+                
+                Button {
+                    text: "Stop Video"
+                    onClicked: {
+                        if (vidPlayer.stop() != MediaError.None) {
+                            // Put your error handing code here
+                        }
+                    }
+                }
             }
-        }
-        TextField {
-            id: loadedtext
-            hintText: "nothin"
         }
     }
 }
+

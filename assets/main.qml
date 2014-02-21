@@ -58,14 +58,15 @@ TabbedPane {
         title: "video"
         Page {
             Container {
-                layout: AbsoluteLayout {
+                layout: StackLayout {
+
                 }
-                
+
                 attachedObjects:[
                     MediaPlayer {
                         id: vidPlayer
-                        sourceUrl: ""
-                        
+                        //sourceUrl: "asset:///The_Marshmallow_Test_medium.mp4"
+                        sourceUrl: "http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8"
                         videoOutput: VideoOutput.PrimaryDisplay
                         
                         // The name of the window to create
@@ -101,10 +102,10 @@ TabbedPane {
                 
                 
                 Button {
+                    
                     text: "Play Video"
                     onClicked: {
-                        
-                        
+                        //vidPlayer.setSourceUrl("http://qthttp.apple.com.edgesuite.net/1010qwoeiuryfg/sl.m3u8")
                         if (vidPlayer.play() != MediaError.None) {
                             // Put your error handling code here
                         }
